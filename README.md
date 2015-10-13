@@ -20,9 +20,19 @@ This should work on any system with BASH 4 or later.
   `git clone https://github.com/curtis86/spaceweather-cli
 
 ### Usage
-TODO
+
+`./spaceweather-cli`
+
 ### Sample Output
-TODO
+
+```
+Current Kp Index: 3.67
+ACE Bz: 0.9 nT
+ACE Particle Density: 2.1 p/cc
+ACE Solar Wind: 559.4 Km/s
+Solar Wind ETA: 44 minutes.
+Last Update: Tue Oct 13 19:44:16 AEDT 2015
+```
 
 ## Disclaimer
 
