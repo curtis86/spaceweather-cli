@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+#
+# Uses spaceweather (https://raw.githubusercontent.com/curtis86/spaceweather) data to print current/near-realtime space weather data.
+# Author: Curtis Kneisel
+# GitHub: https://github.com/curtis86/spaceweather-cli
+
+# Uncomment for debug
+#set -x
+
+# CONSTANTS
+readonly home_d="$( readlink -f "$( dirname $0 )"  )"
+readonly spaceweather_d="/opt/spaceweather"
+readonly spaceweather_f="${spaceweather_d}/spaceweather"
+readonly libraries_d="${home_d}/libraries"
+readonly refresh_rate=10
+
+# SCRIPT FUNCTIONS
+abrt() { echo ; echo "$@" ; exit 1 ; }
+msg() { echo ; echo "$@" ; }
+vmsg() { echo ; [ $verbose ] && echo "$@" >&2 ; }
+
+# INCLUDES
+source "${libraries_d}/functions.sh" || abrt "ERROR: unable to load functions file (${libraries_d}/functions.sh). Exiting."
+
+# MAIN
+main() {
+  # Verify that spaceweather is available
+  [ ! -x "${spaceweather_f}" ] && abrt "ERROR: spaceweather not found. Please install first (see: https://github.com/curtis86/spaceweather)"
+
+  clear
+  while [ true ]; do
+    clear_buffer
+    
+    # Get measurements
+    date_now=$( date )
+    wing_kp_index=$( ${spaceweather_f} "m_wing_kp_index" | awk '{ print $2 }' )
+    ace_magnetometer_bz=$( ${spaceweather_f} "m_ace_magnetometer_bz" | awk '{ print $2 }' )
+    ace_solar_wind_speed=$( ${spaceweather_f} "m_ace_solar_wind_speed" | awk '{ print $2 }' )
+    ace_solar_wind_eta=$( ${spaceweather_f} "m_ace_solar_wind_eta" | awk '{ print $2 }' )
+    ace_particle_density=$( ${spaceweather_f} "m_ace_particle_density" | awk '{ print $2 }' )
+
+    # Print measurements
+    echo "Current Kp Index: ${wing_kp_index}"
+    echo "ACE Bz: ${ace_magnetometer_bz} nT"
+    echo "ACE Particle Density: ${ace_particle_density} p/cc"
+    echo "ACE Solar Wind: ${ace_solar_wind_speed} Km/s"
+    echo "Solar Wind ETA: ${ace_solar_wind_eta} minutes." 
+    echo "Last Update: ${date_now}"
+
+    sleep ${refresh_rate}
+  done
+  
+}
+
+main $@
