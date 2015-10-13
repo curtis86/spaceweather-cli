@@ -8,7 +8,7 @@
 #set -x
 
 # CONSTANTS
-readonly home_d="$( readlink -f "$( dirname $0 )"  )"
+home_d="$( dirname $0 )" ; readonly home_d="$( cd "${home_d}" ; pwd )"
 readonly spaceweather_d="/opt/spaceweather"
 readonly spaceweather_f="${spaceweather_d}/spaceweather"
 readonly libraries_d="${home_d}/libraries"
