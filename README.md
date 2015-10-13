@@ -3,11 +3,11 @@
 ## A. Summary
 
 Real-time space weather conditions, right in your shell! Useful for tracking potential Aurora conditions.
-IMPORTANT: Uses spaceweather (https://raw.githubusercontent.com/curtis86/spaceweather) data to print current/near-realtime space weather data.
+IMPORTANT: Uses spaceweather (https://github.com/curtis86/spaceweather) data to print current/near-realtime space weather data.
 
 ## B. Dependencies
 
-Requires spaceweather (https://raw.githubusercontent.com/curtis86/spaceweather) for data retrieval.
+Requires spaceweather (https://github.com/curtis86/spaceweather) for data retrieval.
 
 ## C. Supported Systems
 
@@ -17,7 +17,7 @@ This should work on any system with BASH 4 or later.
 
 1. Clone this repo to your preferred directory (eg: /opt/spaceweather-cli)
 
-  `git clone https://github.com/curtis86/spaceweather-cli
+  `git clone https://github.com/curtis86/spaceweather-cli`
 
 ### Usage
 
