@@ -9,7 +9,7 @@
 
 # CONSTANTS
 home_d="$( dirname $0 )" ; readonly home_d="$( cd "${home_d}" ; pwd )"
-readonly spaceweather_d="/opt/spaceweather"
+readonly spaceweather_d="/home/mobaxterm/Code/spaceweather"
 readonly spaceweather_f="${spaceweather_d}/spaceweather"
 readonly libraries_d="${home_d}/libraries"
 readonly refresh_rate=10
@@ -21,16 +21,23 @@ vmsg() { echo ; [ $verbose ] && echo "$@" >&2 ; }
 
 # INCLUDES
 source "${libraries_d}/functions.sh" || abrt "ERROR: unable to load functions file (${libraries_d}/functions.sh). Exiting."
+source "${libraries_d}/aurora_strength_indicator.sh" || abrt "ERROR: unable to load ${libraries_d}/aurora_strength_indicator.sh, exiting."
 
 # MAIN
 main() {
   # Verify that spaceweather is available
   [ ! -x "${spaceweather_f}" ] && abrt "ERROR: spaceweather not found. Please install first (see: https://github.com/curtis86/spaceweather)"
 
+  first_run=1
+
   clear
   while [ true ]; do
-    clear_buffer
-    
+
+    if [ ${first_run} -eq 1 ]; then
+      msg "Loading data... "
+      first_run=0
+    fi
+
     # Get measurements
     date_now=$( date )
     wing_kp_index=$( ${spaceweather_f} "m_wing_kp_index" | awk '{ print $2 }' )
@@ -39,17 +46,31 @@ main() {
     ace_solar_wind_eta=$( ${spaceweather_f} "m_ace_solar_wind_eta" | awk '{ print $2 }' )
     ace_particle_density=$( ${spaceweather_f} "m_ace_particle_density" | awk '{ print $2 }' )
 
-    # Print measurements
-    echo "Current Kp Index: ${wing_kp_index}"
-    echo "ACE Bz: ${ace_magnetometer_bz} nT"
-    echo "ACE Particle Density: ${ace_particle_density} p/cc"
-    echo "ACE Solar Wind: ${ace_solar_wind_speed} Km/s"
-    echo "Solar Wind ETA: ${ace_solar_wind_eta} minutes." 
-    echo "Last Update: ${date_now}"
+    clear_buffer
 
-    sleep ${refresh_rate}
+    # Print measurements
+    echo -n "Current Kp Index: " && is_bad_data ${wing_kp_index} && echo "*bad reading*" || echo "${wing_kp_index}"
+    echo -n "ACE Bz: " && is_bad_data ${ace_magnetometer_bz} && echo "*bad reading*" || echo "${ace_magnetometer_bz} nT"
+    echo -n "ACE Particle Density: " && is_bad_data ${ace_particle_density} && echo "*bad reading*" || echo "${ace_particle_density} p/cc"
+    echo -n "ACE Solar Wind: " && is_bad_data ${ace_solar_wind_speed} && echo "*bad reading*" || echo "${ace_solar_wind_speed} Km/s"
+    echo -n "Solar Wind ETA: " && is_bad_data ${ace_solar_wind_eta} && echo "*bad reading*" || echo "${ace_solar_wind_eta} minutes."
+    echo "Last Update: ${date_now}"
+    echo
+
+    if ! is_bad_data ${ace_magnetometer_bz} && ! is_bad_data ${ace_particle_density}; then
+      echo "Aurora Prediction: $( aurora_strength_indicator ${ace_magnetometer_bz} ${ace_particle_density} )"
+    else
+      echo "Aurora Prediction: *bad measurement reading*"
+    fi
+
+    next_update=${refresh_rate}
+    while [ ${next_update} -ne 0 ] ; do
+      echo -ne "Next update in... ${next_update} seconds          \r"
+      ((next_update--))
+      sleep 1
+    done
   done
-  
+
 }
 
 main $@

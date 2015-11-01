@@ -34,6 +34,10 @@ Solar Wind ETA: 44 minutes.
 Last Update: Tue Oct 13 19:44:16 AEDT 2015
 ```
 
+## Notes
+
+From time to time, data measurements by ACE can include a bad or missing data record. This will be presented as *bad data* in script output.
+
 ## Disclaimer
 
 I'm not a programmer, but I do like to make things! Please use this at your own risk.
