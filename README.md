@@ -26,12 +26,15 @@ This should work on any system with BASH 4 or later.
 ### Sample Output
 
 ```
-Current Kp Index: 3.67
-ACE Bz: 0.9 nT
-ACE Particle Density: 2.1 p/cc
-ACE Solar Wind: 559.4 Km/s
-Solar Wind ETA: 44 minutes.
-Last Update: Tue Oct 13 19:44:16 AEDT 2015
+Current Kp Index: 1.67
+ACE Bz: 1.7 nT
+ACE Particle Density: 6.4 p/cc
+ACE Solar Wind: 330.1 Km/s
+Solar Wind ETA: 75 minutes.
+Last Update: Mon Nov  2 08:16:49 TDT 2015
+
+Aurora Prediction: [____________________] 4.100 % (NONE)
+Next update in... 1 seconds
 ```
 
 ## Notes
