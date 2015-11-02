@@ -21,7 +21,12 @@ This should work on any system with BASH 4 or later.
 
 ### Usage
 
-`./spaceweather-cli`
+```
+Usage: spaceweather-cli <options>
+
+Options:
+  --single:  runs once and then exits.
+```
 
 ### Sample Output
 

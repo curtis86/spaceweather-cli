@@ -8,6 +8,17 @@ clear_buffer() {
 }
 
 #######################################
+# Prints script usage
+#######################################
+usage() {
+  echo
+  echo "Usage: $( basename $0 ) <options>"
+  echo
+  echo "Options:"
+  echo "  --single:  runs once and then exits."
+}
+
+#######################################
 # Checks if measurement data is bad.
 #######################################
 is_bad_data() {
@@ -18,5 +29,36 @@ is_bad_data() {
     return 0
   else
     return 1
+  fi
+}
+
+#######################################
+# Gets latest measurements
+#######################################
+get_measurements() {
+  date_now=$( date )
+  wing_kp_index=$( ${spaceweather_f} "m_wing_kp_index" | awk '{ print $2 }' )
+  ace_magnetometer_bz=$( ${spaceweather_f} "m_ace_magnetometer_bz" | awk '{ print $2 }' )
+  ace_solar_wind_speed=$( ${spaceweather_f} "m_ace_solar_wind_speed" | awk '{ print $2 }' )
+  ace_solar_wind_eta=$( ${spaceweather_f} "m_ace_solar_wind_eta" | awk '{ print $2 }' )
+  ace_particle_density=$( ${spaceweather_f} "m_ace_particle_density" | awk '{ print $2 }' )
+}
+
+#######################################
+# Prints last measurements
+#######################################
+print_measurements() {
+  echo -n "Current Kp Index: " && is_bad_data ${wing_kp_index} && echo "*bad reading*" || echo "${wing_kp_index}"
+  echo -n "ACE Bz: " && is_bad_data ${ace_magnetometer_bz} && echo "*bad reading*" || echo "${ace_magnetometer_bz} nT"
+  echo -n "ACE Particle Density: " && is_bad_data ${ace_particle_density} && echo "*bad reading*" || echo "${ace_particle_density} p/cc"
+  echo -n "ACE Solar Wind: " && is_bad_data ${ace_solar_wind_speed} && echo "*bad reading*" || echo "${ace_solar_wind_speed} Km/s"
+  echo -n "Solar Wind ETA: " && is_bad_data ${ace_solar_wind_eta} && echo "*bad reading*" || echo "${ace_solar_wind_eta} minutes."
+  echo "Last Update: ${date_now}"
+  echo
+
+  if ! is_bad_data ${ace_magnetometer_bz} && ! is_bad_data ${ace_particle_density}; then
+    echo "Aurora Prediction: $( aurora_strength_indicator ${ace_magnetometer_bz} ${ace_particle_density} )"
+  else
+    echo "Aurora Prediction: *bad measurement reading*"
   fi
 }
