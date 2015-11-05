@@ -31,15 +31,17 @@ Options:
 ### Sample Output
 
 ```
-Current Kp Index: 1.67
-ACE Bz: 1.7 nT
-ACE Particle Density: 6.4 p/cc
-ACE Solar Wind: 330.1 Km/s
-Solar Wind ETA: 75 minutes.
-Last Update: Mon Nov  2 08:16:49 TDT 2015
+Current Kp Index: 2.33
+1-Hour Forecast Kp Index: 3.00
+4-hour Forecast Kp Index: 3.00
+ACE Bz: -2.7 nT
+ACE Particle Density: 1.3 p/cc
+ACE Solar Wind: 560.0 Km/s
+Solar Wind ETA: 44 minutes.
+Last Update: Thu Nov  5 16:05:06 AEDT 2015
 
-Aurora Prediction: [____________________] 4.100 % (NONE)
-Next update in... 1 seconds
+Aurora Prediction: [====________________] 22.150 % (VERY LOW)
+Next update in... 8 seconds
 ```
 
 ## Notes

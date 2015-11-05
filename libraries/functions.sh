@@ -37,7 +37,9 @@ is_bad_data() {
 #######################################
 get_measurements() {
   date_now=$( date )
-  wing_kp_index=$( ${spaceweather_f} "m_wing_kp_index" | awk '{ print $2 }' )
+  wing_kp_index_current=$( ${spaceweather_f} "m_wing_kp_index" | awk '{ print $2 }' )
+  wing_kp_index_onehour=$( ${spaceweather_f} "m_wing_kp_one_hour_forecast" | awk '{ print $2 }' )
+  wing_kp_index_fourhour=$( ${spaceweather_f} "m_wing_kp_four_hour_forecast" | awk '{ print $2 }' )
   ace_magnetometer_bz=$( ${spaceweather_f} "m_ace_magnetometer_bz" | awk '{ print $2 }' )
   ace_solar_wind_speed=$( ${spaceweather_f} "m_ace_solar_wind_speed" | awk '{ print $2 }' )
   ace_solar_wind_eta=$( ${spaceweather_f} "m_ace_solar_wind_eta" | awk '{ print $2 }' )
@@ -48,7 +50,9 @@ get_measurements() {
 # Prints last measurements
 #######################################
 print_measurements() {
-  echo -n "Current Kp Index: " && is_bad_data ${wing_kp_index} && echo "*bad reading*" || echo "${wing_kp_index}"
+  echo -n "Current Kp Index: " && is_bad_data ${wing_kp_index_current} && echo "*bad reading*" || echo "${wing_kp_index_current}"
+  echo -n "1-Hour Forecast Kp Index: " && is_bad_data ${wing_kp_index_onehour} && echo "*bad reading*" || echo "${wing_kp_index_onehour}"
+  echo -n "4-hour Forecast Kp Index: " && is_bad_data ${wing_kp_index_fourhour} && echo "*bad reading*" || echo "${wing_kp_index_fourhour}"
   echo -n "ACE Bz: " && is_bad_data ${ace_magnetometer_bz} && echo "*bad reading*" || echo "${ace_magnetometer_bz} nT"
   echo -n "ACE Particle Density: " && is_bad_data ${ace_particle_density} && echo "*bad reading*" || echo "${ace_particle_density} p/cc"
   echo -n "ACE Solar Wind: " && is_bad_data ${ace_solar_wind_speed} && echo "*bad reading*" || echo "${ace_solar_wind_speed} Km/s"
