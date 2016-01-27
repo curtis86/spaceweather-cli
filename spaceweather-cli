@@ -11,7 +11,7 @@ set -o pipefail
 
 # CONSTANTS
 home_d="$( dirname $0 )" ; readonly home_d="$( cd "${home_d}" ; pwd )"
-readonly spaceweather_d="/Users/curtis/Code/modify/spaceweather"
+readonly spaceweather_d="/opt/spaceweather"
 readonly spaceweather_f="${spaceweather_d}/spaceweather"
 readonly libraries_d="${home_d}/libraries"
 readonly refresh_rate=10
