@@ -37,13 +37,13 @@ is_bad_data() {
 #######################################
 get_measurements() {
   date_now=$( date )
-  wing_kp_index_current=$( ${spaceweather_f} "m_wing_kp_index" | awk '{ print $2 }' )
-  wing_kp_index_onehour=$( ${spaceweather_f} "m_wing_kp_one_hour_forecast" | awk '{ print $2 }' )
-  wing_kp_index_fourhour=$( ${spaceweather_f} "m_wing_kp_four_hour_forecast" | awk '{ print $2 }' )
-  ace_magnetometer_bz=$( ${spaceweather_f} "m_ace_magnetometer_bz" | awk '{ print $2 }' )
-  ace_solar_wind_speed=$( ${spaceweather_f} "m_ace_solar_wind_speed" | awk '{ print $2 }' )
-  ace_solar_wind_eta=$( ${spaceweather_f} "m_ace_solar_wind_eta" | awk '{ print $2 }' )
-  ace_particle_density=$( ${spaceweather_f} "m_ace_particle_density" | awk '{ print $2 }' )
+  wing_kp_index_current=$( ${spaceweather_f} "m_wing_kp_index" | awk '{ print $2 }' ) || abrt "ERROR: Unable to retrieve reading. Exiting."
+  wing_kp_index_onehour=$( ${spaceweather_f} "m_wing_kp_one_hour_forecast" | awk '{ print $2 }' ) || abrt "ERROR: Unable to retrieve reading. Exiting."
+  wing_kp_index_fourhour=$( ${spaceweather_f} "m_wing_kp_four_hour_forecast" | awk '{ print $2 }' ) || abrt "ERROR: Unable to retrieve reading. Exiting."
+  ace_magnetometer_bz=$( ${spaceweather_f} "m_ace_magnetometer_bz" | awk '{ print $2 }' ) || abrt "ERROR: Unable to retrieve reading. Exiting."
+  ace_solar_wind_speed=$( ${spaceweather_f} "m_ace_solar_wind_speed" | awk '{ print $2 }' ) || abrt "ERROR: Unable to retrieve reading. Exiting."
+  ace_solar_wind_eta=$( ${spaceweather_f} "m_ace_solar_wind_eta" | awk '{ print $2 }' ) || abrt "ERROR: Unable to retrieve reading. Exiting."
+  ace_particle_density=$( ${spaceweather_f} "m_ace_particle_density" | awk '{ print $2 }' ) || abrt "ERROR: Unable to retrieve reading. Exiting."
 }
 
 #######################################
