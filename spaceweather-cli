@@ -50,8 +50,9 @@ main() {
     msg "Loading data... "
 
     while [ true ]; do
+      
       get_measurements
-      clear_buffer
+      clear_screen
       print_measurements
 
       next_update=${refresh_rate}
